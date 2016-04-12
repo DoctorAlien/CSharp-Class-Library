@@ -132,7 +132,7 @@ public class Database
     /// </summary>
     /// <param name="sqlString">sql语句</param>
     /// <returns>返回更新行数</returns>
-    public int UpdateData(string sqlString)
+    public int UpdateDataRows(string sqlString)
     {
         OpenConnection();
         comm = new SqlCommand(sqlString, conn);
@@ -146,7 +146,7 @@ public class Database
     /// <param name="sqlString">sql语句</param>
     /// <param name="values">更新数组</param>
     /// <returns>返回更新行数</returns>
-    public int UpdateData(string sqlString, SqlParameter[] values)
+    public int UpdateDataRows(string sqlString, SqlParameter[] values)
     {
         OpenConnection();
         comm = new SqlCommand(sqlString, conn);
@@ -163,7 +163,7 @@ public class Database
     /// </summary>
     /// <param name="sqlString">sql语句</param>
     /// <returns>返回数据集</returns>
-    public SqlDataAdapter UpdateData(string sqlString) {
+    public SqlDataAdapter UpdateDataSet(string sqlString) {
         OpenConnection();
         comm = new SqlCommand(sqlString, conn);
         ds = new DataSet();
@@ -171,5 +171,20 @@ public class Database
         SqlCommandBuilder scb = new SqlCommandBuilder(sda);
         CloseConnection();
         return sda; 
+    }
+    /// <summary>
+    /// 获取数据集
+    /// </summary>
+    /// <param name="sqlString">sql语句</param>
+    /// <returns>返回数据集</returns>
+    public DataSet GetDataSet(String sqlString)
+    {
+        OpenConnection();
+        comm = new SqlCommand(sqlString, conn);
+        ds = new DataSet();
+        sda = new SqlDataAdapter(comm);
+        sda.Fill(ds);
+        CloseConnection();
+        return ds;
     }
 }
