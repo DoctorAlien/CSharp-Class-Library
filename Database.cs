@@ -173,6 +173,26 @@ public class Database
         return sda; 
     }
     /// <summary>
+    /// 更新数据
+    /// </summary>
+    /// <param name="sqlString">sql语句</param>
+    /// <param name="values">更新数组</param>
+    /// <returns>返回数据集</returns>
+    public SqlDataAdapter UpdateDataSet(string sqlString, SqlParameter[] values)
+    {
+        OpenConnection();
+        comm = new SqlCommand(sqlString, conn);
+        foreach (SqlParameter item in values)
+        {
+            comm.Parameters.Add(item);
+        }
+        ds = new DataSet();
+        sda = new SqlDataAdapter(comm);
+        SqlCommandBuilder scb = new SqlCommandBuilder(sda);
+        CloseConnection();
+        return sda;
+    }
+    /// <summary>
     /// 获取数据集
     /// </summary>
     /// <param name="sqlString">sql语句</param>
@@ -186,5 +206,54 @@ public class Database
         sda.Fill(ds);
         CloseConnection();
         return ds;
+    }
+    /// <summary>
+    /// 获取数据集
+    /// </summary>
+    /// <param name="sqlString">sql语句</param>
+    /// <param name="values">更新数组</param>
+    /// <returns>返回数据集</returns>
+    public DataSet GetDataSet(String sqlString, SqlParameter[] values)
+    {
+        OpenConnection();
+        comm = new SqlCommand(sqlString, conn);
+        foreach (SqlParameter item in values)
+        {
+            comm.Parameters.Add(item);
+        }
+        ds = new DataSet();
+        sda = new SqlDataAdapter(comm);
+        sda.Fill(ds);
+        CloseConnection();
+        return ds;
+    }
+    /// <summary>
+    /// 获取数据流
+    /// </summary>
+    /// <param name="sqlString">sql语句</param>
+    /// <returns>返回数据流</returns>
+    public SqlDataReader GetDataReader(string sqlString)
+    {
+        OpenConnection();
+        comm = new SqlCommand(sqlString, conn);
+        SqlDataReader sdr = comm.ExecuteReader();
+        return sdr;
+    }
+    /// <summary>
+    /// 获取数据流
+    /// </summary>
+    /// <param name="sqlString">sql语句</param>
+    /// <param name="values">更新数组</param>
+    /// <returns>返回数据流</returns>
+    public SqlDataReader GetDataReader(string sqlString, SqlParameter[] values)
+    {
+        OpenConnection();
+        comm = new SqlCommand(sqlString, conn);
+        foreach (SqlParameter item in values)
+        {
+            comm.Parameters.Add(item);
+        }
+        SqlDataReader sdr = comm.ExecuteReader();
+        return sdr;
     }
 }
